@@ -33,7 +33,9 @@ namespace Indexer
                 return;
             }
             //создаем корневую ноду
+            folder_tree.Nodes.Clear();
             var nd = folder_tree.Nodes.Add(Indexes.RootFolderPath, new FileInfo(Indexes.RootFolderPath).Name);
+            nd.ImageKey = "папка.png";
             progressBar1.Maximum = Indexes.AllFiles.Count;
             file_cnt_lbl.Text = progressBar1.Maximum.ToString();
             sel_ext_cmb.Items.Clear();
@@ -64,10 +66,13 @@ namespace Indexer
                     //докидываем слэши для корреляции с алгоритмом скана
                     if (subPathAgg != item.FullPath)
                         subPathAgg += '\\';
+                    else
+                        lastNode.ImageKey = "док.png";
                 }
                 lastNode = nd; //дефолтная нода для следующей итерации все равно корневая
                 UpdateProgress();
             }
+            GC.Collect();
             progressBar1.CreateGraphics().DrawString("Done", new Font("Arial", (float)8.25, FontStyle.Regular), Brushes.Black, new PointF(progressBar1.Width / 2 - 10, progressBar1.Height / 2 - 7));
             nd.Expand();
 
@@ -118,7 +123,8 @@ namespace Indexer
             foreach (string file in Files)
             {
                 FileInfo fi = new FileInfo(file);
-                td.Nodes.Add(fi.FullName, fi.Name);
+                td.Nodes.Add(fi.FullName, fi.Name).ImageKey = "док.png";
+
                 UpdateProgress();
                 lie.Add(new IndxElement(fi.FullName));
             }
@@ -138,6 +144,7 @@ namespace Indexer
             {
                 DirectoryInfo di = new DirectoryInfo(subdirectory);
                 TreeNode tds = td.Nodes.Add(di.FullName, di.Name);
+                tds.ImageKey = "папка.png";
                 ie.AddRange(LoadFiles(subdirectory, tds));
                 ie.AddRange(LoadSubDirectories(subdirectory, tds));
                 UpdateProgress();
@@ -153,6 +160,7 @@ namespace Indexer
             {
                 if (MessageBox.Show($"Do index of\n\t{fbd.SelectedPath}", "New Indexer", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+                    folder_tree.Nodes.Clear();
                     Indexes = DoScan(fbd.SelectedPath);
                     folder_tree.Nodes[0].Expand();
                 }
@@ -247,6 +255,21 @@ namespace Indexer
                     csm_file.Visible = false;
                 }
             }
+        }
+
+        private void select_current_cmb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void save_indx_btn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void open_indx_btn_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

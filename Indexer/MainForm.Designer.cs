@@ -30,7 +30,9 @@ namespace Indexer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.folder_tree = new System.Windows.Forms.TreeView();
+            this.img_lst = new System.Windows.Forms.ImageList(this.components);
             this.search_txb = new System.Windows.Forms.TextBox();
             this.sel_ext_cmb = new System.Windows.Forms.ComboBox();
             this.search_result_lbx = new System.Windows.Forms.ListBox();
@@ -42,7 +44,16 @@ namespace Indexer
             this.fbd = new System.Windows.Forms.FolderBrowserDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.file_cnt_lbl = new System.Windows.Forms.Label();
+            this.sfd = new System.Windows.Forms.SaveFileDialog();
+            this.ofd = new System.Windows.Forms.OpenFileDialog();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.save_indx_btn = new System.Windows.Forms.ToolStripMenuItem();
+            this.open_indx_btn = new System.Windows.Forms.ToolStripMenuItem();
+            this.select_current_cmb = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.csm_file.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // folder_tree
@@ -50,16 +61,30 @@ namespace Indexer
             this.folder_tree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.folder_tree.Location = new System.Drawing.Point(12, 12);
+            this.folder_tree.ImageIndex = 2;
+            this.folder_tree.ImageList = this.img_lst;
+            this.folder_tree.Location = new System.Drawing.Point(12, 28);
             this.folder_tree.Name = "folder_tree";
-            this.folder_tree.Size = new System.Drawing.Size(204, 302);
+            this.folder_tree.SelectedImageIndex = 0;
+            this.folder_tree.Size = new System.Drawing.Size(204, 286);
             this.folder_tree.TabIndex = 0;
             this.folder_tree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.folder_tree_MouseDown);
+            // 
+            // img_lst
+            // 
+            this.img_lst.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.img_lst.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("img_lst.ImageStream")));
+            this.img_lst.TransparentColor = System.Drawing.Color.Transparent;
+            this.img_lst.Images.SetKeyName(0, "док.png");
+            this.img_lst.Images.SetKeyName(1, "меню.png");
+            this.img_lst.Images.SetKeyName(2, "папка.png");
+            this.img_lst.Images.SetKeyName(3, "опен.png");
+            this.img_lst.Images.SetKeyName(4, "сейв.png");
             // 
             // search_txb
             // 
             this.search_txb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.search_txb.Location = new System.Drawing.Point(222, 12);
+            this.search_txb.Location = new System.Drawing.Point(222, 28);
             this.search_txb.Name = "search_txb";
             this.search_txb.Size = new System.Drawing.Size(204, 23);
             this.search_txb.TabIndex = 1;
@@ -71,7 +96,7 @@ namespace Indexer
             this.sel_ext_cmb.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.sel_ext_cmb.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.sel_ext_cmb.FormattingEnabled = true;
-            this.sel_ext_cmb.Location = new System.Drawing.Point(432, 12);
+            this.sel_ext_cmb.Location = new System.Drawing.Point(432, 28);
             this.sel_ext_cmb.Name = "sel_ext_cmb";
             this.sel_ext_cmb.Size = new System.Drawing.Size(80, 23);
             this.sel_ext_cmb.TabIndex = 2;
@@ -83,9 +108,9 @@ namespace Indexer
             | System.Windows.Forms.AnchorStyles.Right)));
             this.search_result_lbx.FormattingEnabled = true;
             this.search_result_lbx.ItemHeight = 15;
-            this.search_result_lbx.Location = new System.Drawing.Point(222, 41);
+            this.search_result_lbx.Location = new System.Drawing.Point(222, 57);
             this.search_result_lbx.Name = "search_result_lbx";
-            this.search_result_lbx.Size = new System.Drawing.Size(290, 199);
+            this.search_result_lbx.Size = new System.Drawing.Size(290, 184);
             this.search_result_lbx.TabIndex = 3;
             this.search_result_lbx.MouseDown += new System.Windows.Forms.MouseEventHandler(this.search_result_lbx_MouseDown);
             // 
@@ -155,11 +180,76 @@ namespace Indexer
             this.file_cnt_lbl.TabIndex = 7;
             this.file_cnt_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // ofd
+            // 
+            this.ofd.FileName = "openFileDialog1";
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripDropDownButton1,
+            this.select_current_cmb,
+            this.toolStripLabel1});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
+            this.toolStrip1.Size = new System.Drawing.Size(529, 25);
+            this.toolStrip1.TabIndex = 8;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.save_indx_btn,
+            this.open_indx_btn});
+            this.toolStripDropDownButton1.Image = global::Indexer.Properties.Resources.меню;
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(29, 22);
+            this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
+            // 
+            // save_indx_btn
+            // 
+            this.save_indx_btn.Image = global::Indexer.Properties.Resources.сейв;
+            this.save_indx_btn.Name = "save_indx_btn";
+            this.save_indx_btn.Size = new System.Drawing.Size(174, 22);
+            this.save_indx_btn.Text = "Сохранить индекс";
+            this.save_indx_btn.Click += new System.EventHandler(this.save_indx_btn_Click);
+            // 
+            // open_indx_btn
+            // 
+            this.open_indx_btn.Image = global::Indexer.Properties.Resources.опен;
+            this.open_indx_btn.Name = "open_indx_btn";
+            this.open_indx_btn.Size = new System.Drawing.Size(174, 22);
+            this.open_indx_btn.Text = "Открыть индекс";
+            this.open_indx_btn.Click += new System.EventHandler(this.open_indx_btn_Click);
+            // 
+            // select_current_cmb
+            // 
+            this.select_current_cmb.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.select_current_cmb.AutoSize = false;
+            this.select_current_cmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.select_current_cmb.Name = "select_current_cmb";
+            this.select_current_cmb.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+            this.select_current_cmb.Padding = new System.Windows.Forms.Padding(0, 0, 35, 0);
+            this.select_current_cmb.Size = new System.Drawing.Size(175, 23);
+            this.select_current_cmb.SelectedIndexChanged += new System.EventHandler(this.select_current_cmb_SelectedIndexChanged);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+            this.toolStripLabel1.Size = new System.Drawing.Size(118, 22);
+            this.toolStripLabel1.Text = "Доступные индексы";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(529, 322);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.file_cnt_lbl);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar1);
@@ -174,6 +264,8 @@ namespace Indexer
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.csm_file.ResumeLayout(false);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -193,6 +285,15 @@ namespace Indexer
         private System.Windows.Forms.FolderBrowserDialog fbd;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label file_cnt_lbl;
+        private System.Windows.Forms.SaveFileDialog sfd;
+        private System.Windows.Forms.OpenFileDialog ofd;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripComboBox select_current_cmb;
+        private System.Windows.Forms.ImageList img_lst;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem save_indx_btn;
+        private System.Windows.Forms.ToolStripMenuItem open_indx_btn;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
     }
 }
 
