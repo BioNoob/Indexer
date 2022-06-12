@@ -26,12 +26,12 @@ namespace Indexer.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Indexes {
+        public string Last_load {
             get {
-                return ((string)(this["Indexes"]));
+                return ((string)(this["Last_load"]));
             }
             set {
-                this["Indexes"] = value;
+                this["Last_load"] = value;
             }
         }
     }
