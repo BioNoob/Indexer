@@ -35,10 +35,11 @@ namespace Indexer
             this.img_lst = new System.Windows.Forms.ImageList(this.components);
             this.search_txb = new System.Windows.Forms.TextBox();
             this.sel_ext_cmb = new System.Windows.Forms.ComboBox();
-            this.search_result_lbx = new System.Windows.Forms.ListBox();
             this.scan_btn = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.csm_file = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.csmi_openffile = new System.Windows.Forms.ToolStripMenuItem();
+            this.csmi_openfolder = new System.Windows.Forms.ToolStripMenuItem();
             this.fbd = new System.Windows.Forms.FolderBrowserDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.file_cnt_lbl = new System.Windows.Forms.Label();
@@ -49,6 +50,7 @@ namespace Indexer
             this.select_current_cmb = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.search_result_lbx_ = new System.Windows.Forms.ListView();
+            this.csm_file.SuspendLayout();
             this.SuspendLayout();
             // 
             // folder_tree
@@ -56,13 +58,17 @@ namespace Indexer
             this.folder_tree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.folder_tree.ImageIndex = 2;
+            this.folder_tree.HideSelection = false;
+            this.folder_tree.ImageIndex = 0;
             this.folder_tree.ImageList = this.img_lst;
             this.folder_tree.Location = new System.Drawing.Point(12, 47);
             this.folder_tree.Name = "folder_tree";
             this.folder_tree.SelectedImageIndex = 0;
-            this.folder_tree.Size = new System.Drawing.Size(204, 455);
+            this.folder_tree.ShowNodeToolTips = true;
+            this.folder_tree.Size = new System.Drawing.Size(253, 421);
             this.folder_tree.TabIndex = 0;
+            this.folder_tree.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.folder_tree_AfterCollapse);
+            this.folder_tree.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.folder_tree_AfterExpand);
             this.folder_tree.MouseDown += new System.Windows.Forms.MouseEventHandler(this.folder_tree_MouseDown);
             // 
             // img_lst
@@ -71,17 +77,15 @@ namespace Indexer
             this.img_lst.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("img_lst.ImageStream")));
             this.img_lst.TransparentColor = System.Drawing.Color.Transparent;
             this.img_lst.Images.SetKeyName(0, "док.png");
-            this.img_lst.Images.SetKeyName(1, "меню.png");
-            this.img_lst.Images.SetKeyName(2, "папка.png");
-            this.img_lst.Images.SetKeyName(3, "опен.png");
-            this.img_lst.Images.SetKeyName(4, "сейв.png");
+            this.img_lst.Images.SetKeyName(1, "папка.png");
+            this.img_lst.Images.SetKeyName(2, "опен.png");
             // 
             // search_txb
             // 
             this.search_txb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.search_txb.Location = new System.Drawing.Point(222, 47);
+            this.search_txb.Location = new System.Drawing.Point(271, 47);
             this.search_txb.Name = "search_txb";
-            this.search_txb.Size = new System.Drawing.Size(204, 23);
+            this.search_txb.Size = new System.Drawing.Size(155, 23);
             this.search_txb.TabIndex = 1;
             this.search_txb.TextChanged += new System.EventHandler(this.search_txb_TextChanged);
             // 
@@ -97,18 +101,6 @@ namespace Indexer
             this.sel_ext_cmb.TabIndex = 2;
             this.sel_ext_cmb.SelectedIndexChanged += new System.EventHandler(this.sel_ext_cmb_SelectedIndexChanged);
             // 
-            // search_result_lbx
-            // 
-            this.search_result_lbx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.search_result_lbx.FormattingEnabled = true;
-            this.search_result_lbx.ItemHeight = 15;
-            this.search_result_lbx.Location = new System.Drawing.Point(22, 91);
-            this.search_result_lbx.Name = "search_result_lbx";
-            this.search_result_lbx.Size = new System.Drawing.Size(290, 349);
-            this.search_result_lbx.TabIndex = 3;
-            this.search_result_lbx.MouseDown += new System.Windows.Forms.MouseEventHandler(this.search_result_lbx_MouseDown);
-            // 
             // scan_btn
             // 
             this.scan_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -123,15 +115,34 @@ namespace Indexer
             // progressBar1
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(222, 479);
+            this.progressBar1.Location = new System.Drawing.Point(166, 479);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(209, 23);
+            this.progressBar1.Size = new System.Drawing.Size(265, 23);
             this.progressBar1.TabIndex = 5;
             // 
             // csm_file
             // 
+            this.csm_file.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.csmi_openffile,
+            this.csmi_openfolder});
             this.csm_file.Name = "csm_file";
-            this.csm_file.Size = new System.Drawing.Size(61, 4);
+            this.csm_file.Size = new System.Drawing.Size(138, 48);
+            // 
+            // csmi_openffile
+            // 
+            this.csmi_openffile.Image = global::Indexer.Properties.Resources.док;
+            this.csmi_openffile.Name = "csmi_openffile";
+            this.csmi_openffile.Size = new System.Drawing.Size(137, 22);
+            this.csmi_openffile.Text = "Open file";
+            this.csmi_openffile.Click += new System.EventHandler(this.csmi_openffile_Click);
+            // 
+            // csmi_openfolder
+            // 
+            this.csmi_openfolder.Image = global::Indexer.Properties.Resources.опен;
+            this.csmi_openfolder.Name = "csmi_openfolder";
+            this.csmi_openfolder.Size = new System.Drawing.Size(137, 22);
+            this.csmi_openfolder.Text = "Open folder";
+            this.csmi_openfolder.Click += new System.EventHandler(this.csmi_openfolder_Click);
             // 
             // fbd
             // 
@@ -140,9 +151,9 @@ namespace Indexer
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(362, 448);
+            this.label1.Location = new System.Drawing.Point(10, 484);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 15);
             this.label1.TabIndex = 6;
@@ -150,11 +161,11 @@ namespace Indexer
             // 
             // file_cnt_lbl
             // 
-            this.file_cnt_lbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.file_cnt_lbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.file_cnt_lbl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.file_cnt_lbl.Location = new System.Drawing.Point(437, 442);
+            this.file_cnt_lbl.Location = new System.Drawing.Point(85, 479);
             this.file_cnt_lbl.Name = "file_cnt_lbl";
-            this.file_cnt_lbl.Size = new System.Drawing.Size(75, 26);
+            this.file_cnt_lbl.Size = new System.Drawing.Size(75, 23);
             this.file_cnt_lbl.TabIndex = 7;
             this.file_cnt_lbl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -169,18 +180,18 @@ namespace Indexer
             // 
             // open_def_folder_btn
             // 
-            this.open_def_folder_btn.Location = new System.Drawing.Point(12, 12);
+            this.open_def_folder_btn.Image = global::Indexer.Properties.Resources.опен;
+            this.open_def_folder_btn.Location = new System.Drawing.Point(10, 12);
             this.open_def_folder_btn.Name = "open_def_folder_btn";
-            this.open_def_folder_btn.Size = new System.Drawing.Size(75, 23);
+            this.open_def_folder_btn.Size = new System.Drawing.Size(31, 23);
             this.open_def_folder_btn.TabIndex = 9;
-            this.open_def_folder_btn.Text = "button1";
             this.open_def_folder_btn.UseVisualStyleBackColor = true;
             this.open_def_folder_btn.Click += new System.EventHandler(this.open_def_folder_btn_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(93, 16);
+            this.label2.Location = new System.Drawing.Point(47, 16);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(118, 15);
             this.label2.TabIndex = 10;
@@ -191,9 +202,9 @@ namespace Indexer
             this.select_current_cmb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.select_current_cmb.FormattingEnabled = true;
-            this.select_current_cmb.Location = new System.Drawing.Point(217, 11);
+            this.select_current_cmb.Location = new System.Drawing.Point(166, 11);
             this.select_current_cmb.Name = "select_current_cmb";
-            this.select_current_cmb.Size = new System.Drawing.Size(295, 23);
+            this.select_current_cmb.Size = new System.Drawing.Size(346, 23);
             this.select_current_cmb.TabIndex = 11;
             this.select_current_cmb.SelectedIndexChanged += new System.EventHandler(this.select_current_cmb_SelectedIndexChanged);
             // 
@@ -212,9 +223,9 @@ namespace Indexer
             this.search_result_lbx_.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.search_result_lbx_.HideSelection = false;
-            this.search_result_lbx_.Location = new System.Drawing.Point(222, 76);
+            this.search_result_lbx_.Location = new System.Drawing.Point(271, 76);
             this.search_result_lbx_.Name = "search_result_lbx_";
-            this.search_result_lbx_.Size = new System.Drawing.Size(290, 363);
+            this.search_result_lbx_.Size = new System.Drawing.Size(241, 392);
             this.search_result_lbx_.SmallImageList = this.img_lst;
             this.search_result_lbx_.TabIndex = 13;
             this.search_result_lbx_.UseCompatibleStateImageBehavior = false;
@@ -234,7 +245,6 @@ namespace Indexer
             this.Controls.Add(this.label1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.scan_btn);
-            this.Controls.Add(this.search_result_lbx);
             this.Controls.Add(this.sel_ext_cmb);
             this.Controls.Add(this.search_txb);
             this.Controls.Add(this.folder_tree);
@@ -243,6 +253,7 @@ namespace Indexer
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
+            this.csm_file.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,12 +264,11 @@ namespace Indexer
         private System.Windows.Forms.TreeView folder_tree;
         private System.Windows.Forms.TextBox search_txb;
         private System.Windows.Forms.ComboBox sel_ext_cmb;
-        private System.Windows.Forms.ListBox search_result_lbx;
         private System.Windows.Forms.Button scan_btn;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.ContextMenuStrip csm_file;
-        //private System.Windows.Forms.ToolStripMenuItem csmi_openfolder;
-        //private System.Windows.Forms.ToolStripMenuItem csmi_openffile;
+        private System.Windows.Forms.ToolStripMenuItem csmi_openfolder;
+        private System.Windows.Forms.ToolStripMenuItem csmi_openffile;
         private System.Windows.Forms.FolderBrowserDialog fbd;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label file_cnt_lbl;

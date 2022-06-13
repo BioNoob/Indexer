@@ -54,6 +54,7 @@ namespace Indexer
     }
     public class IndxElement
     {
+        public static int Identificator = 1;
         public enum Type
         {
             folder,
@@ -69,15 +70,24 @@ namespace Indexer
 
         public Type Tp { get; set; }
 
-        public IndxElement? Prnt { get; set; }
+        //public IndxElement? Prnt { get; set; }
+        public int? Prnt { get; set; }
+
+        public int Id { get; set; }
+        //public List<int> Prnt_ID { get; set; }
 
         public IndxElement()
         {
-
+            Init();
         }
         public IndxElement(string path)
         {
             FullPath = path;
+            Init();
+        }
+        private void Init()
+        {
+            Id = Identificator++;
         }
         public static bool operator ==(IndxElement a, IndxElement b)
         {
